@@ -1,0 +1,307 @@
+.wll-brd {
+    justify-content: space-around;
+}
+
+.wll-bord-row-1 {
+    display: flex;
+    margin: 10px 25px;
+    align-items: center;
+    position: relative;
+}
+
+.wll-bord-row-1 > .borderBox {
+    border: 2px solid rgba(255, 255, 255, 0.63);
+    height: 260px;
+    width: 243px;
+    border-radius: 14px;
+    margin: 12px 9px;
+    position: absolute;
+}
+
+.wll-bord-row-1 > .total-agent-box {
+    display: flex;
+    flex-direction: column;
+    height: 285px;
+    width: 325px;
+    border-radius: 12px;
+    background-color: rgba(49, 65, 81, 0.96);
+    margin-right: 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.wll-bord-row-1 > .total-agent-box > .total{
+    font-size: 5rem;
+    display: flex;
+    font-weight: 700;
+    color: rgba(251, 251, 251, 0.92);
+    text-align: center;
+}
+
+.wll-bord-row-1 > .total-agent-box > .heading {
+    font-size: 1.3rem;
+    display: flex;
+    font-weight: 500;
+    color: rgba(251, 251, 251, 0.92);
+    text-align: center;
+    margin: 0px auto;
+}
+
+
+.wll-bord-row-2 {
+    display: flex;
+    width: 100%;
+    height: 300px;
+    flex-direction: column;
+    border-radius: 8px;
+    padding: 5px 12px;
+    justify-content: space-between;
+}
+
+.wll-bord-row-2 > .status-row {
+    display: flex;
+    height: 48%;
+    width: 100%;
+    border-radius: 6px 6px 16px 16px;
+    align-items: center;
+}
+
+.status-row > .row-total-agent-con {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-left: 25px;
+    border-right: 2px solid rgb(212, 212, 212);
+}
+
+.status-row > .row-total-agent-con > .count {
+    font-size: 3.8rem;
+    font-weight: 700;
+    color: #fbfbfbeb;
+    text-align: start;
+    width: 225px;
+    margin-bottom: -20px;
+}
+
+.status-row > .row-total-agent-con > .detail {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #fbfbfbeb;
+    text-align: start;
+    width: 255px;
+    margin-bottom: 12px;
+}
+
+
+.row-status-agent-con {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+}
+
+.row-status-agent-con > .box-tag {
+   display: flex;
+   width: 115px;
+   height: inherit;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center; 
+}
+
+.row-status-agent-con > .box-tag > .tab-no{
+    display: flex;
+    width: 115px;
+    height: 53px;
+    background-color: #fff;
+    border-radius: 13px;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.row-status-agent-con > .box-tag > .tab-title{
+    font-size: 1.5rem;
+    font-weight: 600;
+    width: max-content;
+    color: #fff;
+}
+
+.row-status-agent-con > .box-tag > .tab-no >.counter{
+    font-size: 2.3rem;
+    font-weight: bold;
+}
+
+.wll-bord-row-3 {
+    display: flex;
+    margin: 0 30px;
+    align-items: center;
+    height: auto;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 0;
+}
+
+
+.wll-bord-row-3 > .row-tag {
+    display: flex;
+    height: 58px;
+    width: 250px;
+    background-color: rgb(26, 206, 107);
+    align-content: center;
+    align-items: center;
+    border-radius: 29px 6px 6px 28px;
+    padding: 1px 0px;
+    margin: 8px 5px;
+}
+
+.wll-bord-row-3 > .row-tag > .row-tag-icon {
+    display: flex;
+    height: 55px;
+    width: 55px;
+    margin: 0px 13px 0px 2px;
+    border-radius: 50%;
+    background-color: rgb(255, 255, 255);
+    justify-content: center;
+    align-items: center;
+}
+
+
+.row-tag > div > .row-tag-status {
+    color: #fff;
+    font-size: 2.4em;
+    font-weight: 700;
+    margin-bottom: -12px;
+}
+
+.row-tag > div > .row-tag-title {
+    color: #fff;
+    font-size: 0.8em;
+    font-weight: 500;
+    margin-bottom: 8px;
+    
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1024px)  {
+    .wll-bord-row-1{
+        margin: 10px 7px;
+    }
+    .wll-bord-row-1 > .total-agent-box{
+        margin-right: 0px;
+    }
+    .wll-bord-row-1 > .total-agent-box > .total{
+        font-size: 4rem;
+    }
+    .row-status-agent-con > .box-tag{
+      width: unset !important;
+    }
+    .status-row > .row-total-agent-con{
+        margin-right: 2px;
+        margin-left: 9px;
+        width: 180px;
+    }
+    .status-row > .row-total-agent-con > .count {
+        font-size: 3rem;
+        margin-bottom: -6px;
+        width: unset;
+    }
+    .status-row > .row-total-agent-con > .detail{
+        font-size: 0.8rem;
+        width: unset;
+    }
+    .row-status-agent-con > .box-tag > .tab-no >.counter{
+        font-size: 2rem;
+    }
+    .row-status-agent-con > .box-tag > .tab-title{
+        font-size: 1.3rem;
+    }
+    .row-status-agent-con > .box-tag > .tab-no{
+        width: 108px;
+        height: 40px;
+    }
+}
+
+@media only screen and (min-width: 320px) and (max-width: 768px)  {
+    .wll-bord-row-1{
+        flex-wrap: wrap;
+        justify-content: center;
+        margin: 10px 5px;
+    }
+    .wll-bord-row-1 > .total-agent-box > .total{
+        font-size: 4rem;
+    }
+    .wll-bord-row-1 > .total-agent-box > .heading{
+        font-size: 1.5rem;
+    }
+    .wll-bord-row-1 > .total-agent-box{
+        margin-right: 0px;
+    }
+    .wll-bord-row-1 > .total-agent-box{
+        width: 97%;
+    }
+    .wll-bord-row-3 > .row-tag{
+
+    }
+}
+
+
+@media only screen and (min-width: 300px) and (max-width: 700px)  {
+    .status-row > .row-total-agent-con > .detail{
+        width: 192px;
+    }
+    .status-row > .row-total-agent-con > .count{
+        width: unset;
+    }
+    .wll-bord-row-2 > .status-row {
+        flex-direction: column;
+        height: unset;
+    }
+    .wll-bord-row-2{
+        height: unset;
+    }
+    .wll-bord-row-2 > .status-row{
+        margin-bottom: 8px
+    }
+    .status-row > .row-total-agent-con{
+        border-right: unset;
+        margin-left: 0px;
+    }
+    .row-status-agent-con > .box-tag > .tab-title{
+        font-size: 1rem;
+    }
+    .row-status-agent-con > .box-tag > .tab-no >.counter{
+        font-size: 2rem;
+    }
+    .wll-bord-row-1{
+        width: 100%;
+        margin: 0px !important;
+    }
+    .wll-bord-row-1 > .total-agent-box{
+        width: 95%;
+    }
+}
+
+
+@media only screen and (min-width: 535px) and (max-width: 850px)  {
+    .wll-bord-row-3 > .row-tag{
+        width: 47%;
+    }
+    .wll-bord-row-3{
+        justify-content: center;
+    }
+}
+@media only screen and (min-width: 320px) and (max-width: 535px)  {
+    .wll-bord-row-3 > .row-tag{
+        width: 100%;
+    }
+    .wll-bord-row-3{
+        margin: 0 6px;
+    }
+    .row-status-agent-con > .box-tag > .tab-no{
+        width: 88px;
+        height: 48px;
+    }
+}
