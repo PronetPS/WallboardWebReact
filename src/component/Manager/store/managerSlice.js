@@ -1,5 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Get_Main_Screen_StatsV1, Get_Main_Screen_StatsV2, GET_WAIT_CALL, Get_Slider_Stat, GET_TABLE_KHI_LHR, GET_SUPERVISOR_DATA, GET_KARACHI_TABLE_DATA } from "../../utils/WallboardService/Api";
+import { Get_Main_Screen_StatsV1, Get_Main_Screen_StatsV2, GET_WAIT_CALL, Get_Slider_Stat, 
+    GET_TABLE_KHI_LHR, GET_SUPERVISOR_DATA, GET_KARACHI_TABLE_DATA, GET_MTDSL_SERVICES ,
+    GET_AHT_SERVICES
+} from "../../utils/WallboardService/Api";
 
 
 const initialState = {
@@ -14,7 +17,9 @@ const initialState = {
     TotalActiveAgent: null,
     TotalNotReady: null,
     TotalLogOut: null,
-    isShowTenMinutes: false
+    isShowTenMinutes: false,
+    MTDSL: null,
+    AHTData: null
 
 }
 export const ManagerdSlice = createSlice({
@@ -129,6 +134,25 @@ export const ManagerdSlice = createSlice({
         [GET_KARACHI_TABLE_DATA.rejected]: (state, { payload }) => {
             // state.isProcess = false;
         },
+        [GET_MTDSL_SERVICES.pending]: (state, { payload }) => {
+            // state.isProcess = true;
+        },
+        [GET_MTDSL_SERVICES.fulfilled]: (state, { payload }) => {
+            state.MTDSL = payload.data[0]?.MTDSL
+        },
+        [GET_MTDSL_SERVICES.rejected]: (state, { payload }) => {
+            // state.isProcess = false;
+        },
+         [GET_AHT_SERVICES.pending]: (state, { payload }) => {
+            // state.isProcess = true;
+        },
+        [GET_AHT_SERVICES.fulfilled]: (state, { payload }) => {
+            state.AHTData = payload.data //recied just data of array
+        },
+        [GET_AHT_SERVICES.rejected]: (state, { payload }) => {
+            // state.isProcess = false;
+        },
+        
     }
 })
 

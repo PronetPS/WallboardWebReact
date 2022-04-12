@@ -2,8 +2,8 @@ import React from 'react'
 import { useSelector } from 'react-redux';
 
 function CallStatusTable() {
-    const { getTableKHILHR, getTableKHI } = useSelector(state => state?.ManagerdSlice); //redux toolkit store
-
+    const { getTableKHILHR, getTableKHI, AHTData } = useSelector(state => state?.ManagerdSlice); //redux toolkit store
+    console.log(AHTData, "AHTData *****");
     let data = [
         { name: "Landed", kcc: "250", lcc: "362", total: "6512" },
         { name: "Answered", kcc: "621", lcc: "691", total: "6512" },
@@ -43,9 +43,17 @@ function CallStatusTable() {
             </div>
             <div className="col-data-row" style={{ display: "flex", width: "inherit", justifyContent: "space-between", alignItems: "center" }}>
                 <div style={{ width: "350px", flex: 1, fontWeight: "bold" }}>Answer Per Agent</div>
-                <div style={{ width: "350px", margin: "5px 3px", textAlign: "center", fontWeight: 500 }}>{getTableKHI ? (parseInt(getTableKHI[0]?.KHI_ANSWERED)/parseInt(getTableKHI[0]?.KHI_AGENT_IN_SERVICE)).toFixed(2) : "00"}</div>
-                <div style={{ width: "350px", margin: "5px 3px", textAlign: "center", fontWeight: 500 }}>{getTableKHILHR ? (parseInt(getTableKHILHR[0]?.LHR_ANSWERED)/parseInt(getTableKHILHR[0]?.LHR_AGENT_IN_SERVICE)).toFixed(2) : "00"}</div>
-                <div style={{ width: "350px", margin: "5px 3px", textAlign: "center", fontWeight: 500 }}>{getTableKHI && getTableKHILHR ?  (parseInt(getTableKHILHR[0]?.LHR_ANSWERED)/parseInt(getTableKHILHR[0]?.LHR_AGENT_IN_SERVICE)+parseInt(getTableKHI[0]?.KHI_ANSWERED)/parseInt(getTableKHI[0]?.KHI_AGENT_IN_SERVICE)).toFixed(2) : "00"}</div>
+                <div style={{ width: "350px", margin: "5px 3px", textAlign: "center", fontWeight: 500 }}>{getTableKHI ? (parseInt(getTableKHI[0]?.KHI_ANSWERED) / parseInt(getTableKHI[0]?.KHI_AGENT_IN_SERVICE)).toFixed(2) : "00"}</div>
+                <div style={{ width: "350px", margin: "5px 3px", textAlign: "center", fontWeight: 500 }}>{getTableKHILHR ? (parseInt(getTableKHILHR[0]?.LHR_ANSWERED) / parseInt(getTableKHILHR[0]?.LHR_AGENT_IN_SERVICE)).toFixed(2) : "00"}</div>
+                <div style={{ width: "350px", margin: "5px 3px", textAlign: "center", fontWeight: 500 }}>{getTableKHI && getTableKHILHR ? (parseInt(getTableKHILHR[0]?.LHR_ANSWERED) / parseInt(getTableKHILHR[0]?.LHR_AGENT_IN_SERVICE) + parseInt(getTableKHI[0]?.KHI_ANSWERED) / parseInt(getTableKHI[0]?.KHI_AGENT_IN_SERVICE)).toFixed(2) : "00"}</div>
+            </div>
+            <div className="col-data-row" style={{ display: "flex", width: "inherit", justifyContent: "space-between", alignItems: "center" }}>
+                <div style={{ width: "350px", flex: 1, fontWeight: "bold" }}>AHT</div>
+
+                <div style={{ width: "350px", margin: "5px 3px", textAlign: "center", fontWeight: 500 }}>{AHTData && AHTData ? AHTData[0]?.AHT : "00"}</div>
+                <div style={{ width: "350px", margin: "5px 3px", textAlign: "center", fontWeight: 500 }}>{AHTData && AHTData ? AHTData[1]?.AHT : "00"}</div>
+                <div style={{ width: "350px", margin: "5px 3px", textAlign: "center", fontWeight: 500 }}>{AHTData && AHTData ? (AHTData[0]?.AHT + AHTData[1].AHT) : "00"}</div>
+
             </div>
 
         </div>

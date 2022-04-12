@@ -136,6 +136,46 @@ export const WallboardServices = {
             return console.log('error', error);
         }
     },
+
+    GetMTDService: async (data) => {
+
+        const headers = new Headers();
+        headers.append("Content-Type", "application/json");
+
+        const requestOptions = {
+            method: 'GET',
+            headers: headers,
+            redirect: 'follow'
+        };
+
+        try {
+            const response = await fetch(`${Base_URL}/getMTDSL`, requestOptions);
+            const result_1 = await response.text();
+            return result_1;
+        } catch (error) {
+            return console.log('error', error);
+        }
+    },
+    GETAHTSERVICE: async (data) => {
+
+        const headers = new Headers();
+        headers.append("Content-Type", "application/json");
+
+        const requestOptions = {
+            method: 'GET',
+            headers: headers,
+            redirect: 'follow'
+        };
+
+        try {
+            const response = await fetch(`${Base_URL}/getAHT`, requestOptions);
+            const result_1 = await response.text();
+            return result_1;
+        } catch (error) {
+            return console.log('error', error);
+        }
+    },
+
 }
 
 

@@ -24,5 +24,5 @@ export const gTime = (sec) => {
    }
 }
 
-// export const Base_URL = 'http://172.24.30.130:2022/api';
-export const Base_URL = 'http://192.168.1.197:2022/api';
+export const Base_URL = 'http://172.24.30.130:2022/api';
+// export const Base_URL = 'http://192.168.1.197:2022/api';

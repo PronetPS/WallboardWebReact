@@ -104,3 +104,28 @@ export const GET_SUPERVISOR_DATA = createAsyncThunk(
         }
     }
 );
+export const GET_MTDSL_SERVICES = createAsyncThunk(
+    "wallboard/getMTDSLService",
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await WallboardServices.GetMTDService()
+            console.log(JSON.parse(response));
+            return JSON.parse(response);
+        } catch (e) {
+            return rejectWithValue(e.response.data);
+        }
+    }
+);
+export const GET_AHT_SERVICES = createAsyncThunk(
+    "wallboard/getAHTServices",
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await WallboardServices.GETAHTSERVICE()
+            console.log(JSON.parse(response));
+            return JSON.parse(response);
+        } catch (e) {
+            return rejectWithValue(e.response.data);
+        }
+    }
+);
+

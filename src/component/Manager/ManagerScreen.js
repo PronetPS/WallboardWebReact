@@ -17,7 +17,7 @@ import { Layout, Row, Col, Button, Typography } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { logOutUser } from '../Reducers/UserSlice';
-import { Get_Main_Screen_StatsV1, Get_Main_Screen_StatsV2, GET_WAIT_CALL, Get_Slider_Stat, GET_TABLE_KHI_LHR, GET_KARACHI_TABLE_DATA, GET_SUPERVISOR_DATA } from '../utils/WallboardService/Api';
+import { Get_Main_Screen_StatsV1, Get_Main_Screen_StatsV2, GET_WAIT_CALL, Get_Slider_Stat, GET_TABLE_KHI_LHR, GET_KARACHI_TABLE_DATA, GET_SUPERVISOR_DATA, GET_MTDSL_SERVICES, GET_AHT_SERVICES } from '../utils/WallboardService/Api';
 import { gTime } from '../utils/base';
 import { clearSupervisorData, updateTotalAgent } from './store/managerSlice';
 const { Text } = Typography;
@@ -25,11 +25,10 @@ const { Header, Content } = Layout;
 
 const ManagerScreen = () => {
     const { loginUser } = useSelector(state => state?.UserSlice); //redux toolkit store
-    const { getMainStatsV1, getMainStatsV2, call_wait, getSliderStat, TotalLogOut, filterdData } = useSelector(state => state?.ManagerdSlice); //redux toolkit store
-
+    const { getMainStatsV1, getMainStatsV2, call_wait, getSliderStat, TotalLogOut, filterdData ,MTDSL, AHTData} = useSelector(state => state?.ManagerdSlice); //redux toolkit store
     let navigate = useNavigate();
     const dispatch = useDispatch();
-
+       
 
     useEffect(() => {
         function getAlerts() {
@@ -39,6 +38,8 @@ const ManagerScreen = () => {
             dispatch(Get_Main_Screen_StatsV2());
             dispatch(GET_TABLE_KHI_LHR());
             dispatch(GET_KARACHI_TABLE_DATA())
+            dispatch(GET_MTDSL_SERVICES())
+            dispatch(GET_AHT_SERVICES())
         }
         getAlerts()
         const interval = setInterval(() => getAlerts(), 5000)
@@ -154,7 +155,7 @@ const ManagerScreen = () => {
                                 color: "#217dbe"
                             }} />
 
-                            <StatuTag data={{ icon: <HiChartPie color={"#ad65d5"} size={40} />, title: "MTD service level", status: "00", color: "#ad65d5" }} />
+                            <StatuTag data={{ icon: <HiChartPie color={"#ad65d5"} size={40} />, title: "MTD service level", status: MTDSL ? MTDSL + "%" : "00 %", color: "#ad65d5" }} />
 
                             <StatuTag data={{ icon: <GiProgression color={"#8c3cb5"} size={33} />, title: "SERVICE LEVEL", status: getMainStatsV1 && getMainStatsV1?.SL !== undefined ? getMainStatsV1?.SL.toFixed(1) + "%" : "00", color: "#8c3cb5" }} />
                             <StatuTag data={{
