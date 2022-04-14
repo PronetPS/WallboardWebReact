@@ -53,7 +53,7 @@ const ManagerScreen = () => {
             dispatch(GET_SUPERVISOR_DATA());
         }
         getAlerts()
-        const interval = setInterval(() => getAlerts(), 600000 ) //10 mints
+        const interval = setInterval(() => getAlerts(), 600000 ) // 10 mints for logout within 10 mins
         return () => {
             clearInterval(interval);
         }

@@ -47,14 +47,14 @@ function CallStatusTable() {
                 <div style={{ width: "350px", margin: "5px 3px", textAlign: "center", fontWeight: 500 }}>{getTableKHILHR ? (parseInt(getTableKHILHR[0]?.LHR_ANSWERED) / parseInt(getTableKHILHR[0]?.LHR_AGENT_IN_SERVICE)).toFixed(2) : "00"}</div>
                 <div style={{ width: "350px", margin: "5px 3px", textAlign: "center", fontWeight: 500 }}>{getTableKHI && getTableKHILHR ? (parseInt(getTableKHILHR[0]?.LHR_ANSWERED) / parseInt(getTableKHILHR[0]?.LHR_AGENT_IN_SERVICE) + parseInt(getTableKHI[0]?.KHI_ANSWERED) / parseInt(getTableKHI[0]?.KHI_AGENT_IN_SERVICE)).toFixed(2) : "00"}</div>
             </div>
-            <div className="col-data-row" style={{ display: "flex", width: "inherit", justifyContent: "space-between", alignItems: "center" }}>
+            {/* <div className="col-data-row" style={{ display: "flex", width: "inherit", justifyContent: "space-between", alignItems: "center" }}>
                 <div style={{ width: "350px", flex: 1, fontWeight: "bold" }}>AHT</div>
 
                 <div style={{ width: "350px", margin: "5px 3px", textAlign: "center", fontWeight: 500 }}>{AHTData && AHTData ? AHTData[0]?.AHT : "00"}</div>
                 <div style={{ width: "350px", margin: "5px 3px", textAlign: "center", fontWeight: 500 }}>{AHTData && AHTData ? AHTData[1]?.AHT : "00"}</div>
                 <div style={{ width: "350px", margin: "5px 3px", textAlign: "center", fontWeight: 500 }}>{AHTData && AHTData ? (AHTData[0]?.AHT + AHTData[1].AHT) : "00"}</div>
 
-            </div>
+            </div> */}
 
         </div>
     )
