@@ -182,7 +182,7 @@ code {
   display: flex;
   flex-direction: column;
   margin: 10px auto;
-  width: 90%;
+  width: 100%;
   height: max-content;
 }
 
@@ -219,6 +219,7 @@ code {
 
 .table-row > .item {
   width: 190px;
+  /* width: 315px; */
   text-align: center;
 }
 .table-row > .item:first-child {
@@ -236,6 +237,8 @@ code {
     border-radius: 6px;
     padding: 3px 0;
     font-weight: 500;
+    margin: auto;
+
 }
 
 
@@ -354,6 +357,7 @@ code {
   }
   .table-row > .item > .agent-status-box{
     width: 75px;
+    margin: auto;
   }
 }
 @media only screen and (min-width: 320px) and (max-width: 425px)  {
@@ -405,4 +409,10 @@ code {
   .wll-bord-row-2{
     height: 464px  !important;
   }
+}
+
+
+.ant-select-selector{
+  border: 1px solid #565353 !important;
+    border-radius: 5px !important;
 }

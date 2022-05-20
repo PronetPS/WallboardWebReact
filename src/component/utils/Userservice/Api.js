@@ -7,7 +7,6 @@ export const CREATE_USER = createAsyncThunk(
     async (data, { rejectWithValue }) => {
         try {
             const response = await UserServices.createUser(data);
-            // console.log(JSON.parse(response));
             return JSON.parse(response);
         } catch (e) {
             return rejectWithValue(e.response.data);
@@ -20,7 +19,6 @@ export const GET_ALL_USER = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             const response = await UserServices.getAllUser();
-            // console.log(JSON.parse(response));
             return JSON.parse(response);
         } catch (e) {
             return rejectWithValue(e.response.data);
@@ -33,7 +31,6 @@ export const DELETE_USER = createAsyncThunk(
     async (id, { rejectWithValue }) => {
         try {
             const response = await UserServices.deleteUser(id);
-            // console.log(JSON.parse(response));
             return JSON.parse(response);
         } catch (e) {
             return rejectWithValue(e.response.data);
@@ -46,7 +43,6 @@ export const UPDATE_USER = createAsyncThunk(
     async (data, { rejectWithValue }) => {
         try {
             const response = await UserServices.updateUser(data);
-            // console.log(JSON.parse(response));
             return JSON.parse(response);
         } catch (e) {
             return rejectWithValue(e.response.data);

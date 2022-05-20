@@ -12,7 +12,6 @@ export const NotFound = () => {
 
 
 export const gTime = (sec) => {
-   console.log("check rendring",sec );
    if(sec){
       var totalSec = sec;
       // var hours = parseInt(totalSec / 3600) % 24;
@@ -24,5 +23,6 @@ export const gTime = (sec) => {
    }
 }
 
-export const Base_URL = 'http://172.24.30.130:2022/api';
-// export const Base_URL = 'http://192.168.1.197:2022/api';
+export const Base_URL = 'http://172.24.30.130:2022/api';  //for production development
+// export const Base_URL = 'http://192.168.3.123:2022/api'; // for local system development
+// export const Base_URL = 'http://10.144.67.114:2022/api';  // for local development

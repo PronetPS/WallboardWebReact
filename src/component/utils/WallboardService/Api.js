@@ -1,13 +1,66 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { WallboardServices } from "./Service";
 
+//new supervisors screen agent api. replace of getliloData
+
+//get All supervisores api
+export const GET_ALL_SUPERVISORS_10Mins = createAsyncThunk(
+    "wallboard/getAllSupervisors10Min",
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await WallboardServices.GetAllSupervisor10Min()
+            return JSON.parse(response);
+        } catch (e) {
+            return rejectWithValue(e.response.data);
+        }
+    }
+);
+
+//get All supervisores api
+export const GET_ALL_SUPERVISORS = createAsyncThunk(
+    "wallboard/getAllSupervisors",
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await WallboardServices.GetAllSupervisor()
+            return JSON.parse(response);
+        } catch (e) {
+            return rejectWithValue(e.response.data);
+        }
+    }
+);
+
+//get All karachi supervisores api
+export const GET_ALL_KHI_SUPERVISORS = createAsyncThunk(
+    "wallboard/getAllKHISupervisors",
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await WallboardServices.GetAllKHISupervisor()
+            return JSON.parse(response);
+        } catch (e) {
+            return rejectWithValue(e.response.data);
+        }
+    }
+);
+
+//get All lahore supervisores api
+export const GET_ALL_LHR_SUPERVISORS = createAsyncThunk(
+    "wallboard/getAllLHRSupervisors",
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await WallboardServices.GetAllLHRSupervisor()
+            return JSON.parse(response);
+        } catch (e) {
+            return rejectWithValue(e.response.data);
+        }
+    }
+);
+
 
 export const GET_WAIT_CALL = createAsyncThunk(
     "wallboard/getWaitCall",
     async (_, { rejectWithValue }) => {
         try {
             const response = await WallboardServices.getWaitCall()
-            console.log(JSON.parse(response));
             return JSON.parse(response);
         } catch (e) {
             return rejectWithValue(e.response.data);
@@ -21,7 +74,6 @@ export const Get_Main_Screen_StatsV1 = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             const response = await WallboardServices.getMainScreenStatsV1()
-            console.log(JSON.parse(response));
             return JSON.parse(response);
         } catch (e) {
             return rejectWithValue(e.response.data);
@@ -34,7 +86,6 @@ export const Get_Main_Screen_StatsV2 = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             const response = await WallboardServices.getMainScreenStatsV2()
-            console.log(JSON.parse(response));
             return JSON.parse(response);
         } catch (e) {
             return rejectWithValue(e.response.data);
@@ -46,7 +97,6 @@ export const Get_Slider_Stat = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             const response = await WallboardServices.getSliderStat()
-            console.log(JSON.parse(response));
             return JSON.parse(response);
         } catch (e) {
             return rejectWithValue(e.response.data);
@@ -59,7 +109,6 @@ export const GET_TABLE_KHI_LHR = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             const response = await WallboardServices.getTableKHILHR()
-            console.log(JSON.parse(response));
             return JSON.parse(response);
         } catch (e) {
             return rejectWithValue(e.response.data);
@@ -72,7 +121,6 @@ export const GET_TABLE_KHI = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             const response = await WallboardServices.getTableKHI()
-            console.log(JSON.parse(response));
             return JSON.parse(response);
         } catch (e) {
             return rejectWithValue(e.response.data);
@@ -84,7 +132,6 @@ export const GET_KARACHI_TABLE_DATA = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             const response = await WallboardServices.getTableKHI()
-            console.log(JSON.parse(response));
             return JSON.parse(response);
         } catch (e) {
             return rejectWithValue(e.response.data);
@@ -97,7 +144,6 @@ export const GET_SUPERVISOR_DATA = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             const response = await WallboardServices.getSupervisorData()
-            console.log(JSON.parse(response));
             return JSON.parse(response);
         } catch (e) {
             return rejectWithValue(e.response.data);
@@ -109,7 +155,6 @@ export const GET_MTDSL_SERVICES = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             const response = await WallboardServices.GetMTDService()
-            console.log(JSON.parse(response));
             return JSON.parse(response);
         } catch (e) {
             return rejectWithValue(e.response.data);
@@ -121,7 +166,6 @@ export const GET_AHT_SERVICES = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             const response = await WallboardServices.GETAHTSERVICE()
-            console.log(JSON.parse(response));
             return JSON.parse(response);
         } catch (e) {
             return rejectWithValue(e.response.data);

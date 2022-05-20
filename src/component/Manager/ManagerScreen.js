@@ -17,7 +17,7 @@ import { Layout, Row, Col, Button, Typography } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { logOutUser } from '../Reducers/UserSlice';
-import { Get_Main_Screen_StatsV1, Get_Main_Screen_StatsV2, GET_WAIT_CALL, Get_Slider_Stat, GET_TABLE_KHI_LHR, GET_KARACHI_TABLE_DATA, GET_SUPERVISOR_DATA, GET_MTDSL_SERVICES, GET_AHT_SERVICES } from '../utils/WallboardService/Api';
+import { Get_Main_Screen_StatsV1, Get_Main_Screen_StatsV2, GET_WAIT_CALL, Get_Slider_Stat, GET_TABLE_KHI_LHR, GET_KARACHI_TABLE_DATA, GET_SUPERVISOR_DATA, GET_MTDSL_SERVICES, GET_AHT_SERVICES, GET_ALL_SUPERVISORS_10Mins } from '../utils/WallboardService/Api';
 import { gTime } from '../utils/base';
 import { clearSupervisorData, updateTotalAgent } from './store/managerSlice';
 const { Text } = Typography;
@@ -25,10 +25,15 @@ const { Header, Content } = Layout;
 
 const ManagerScreen = () => {
     const { loginUser } = useSelector(state => state?.UserSlice); //redux toolkit store
-    const { getMainStatsV1, getMainStatsV2, call_wait, getSliderStat, TotalLogOut, filterdData ,MTDSL, AHTData} = useSelector(state => state?.ManagerdSlice); //redux toolkit store
+    const { getMainStatsV1, getMainStatsV2, call_wait, getSliderStat, MTDSL, tenMintLogoutAgent } = useSelector(state => state?.ManagerdSlice); //redux toolkit store
     let navigate = useNavigate();
     const dispatch = useDispatch();
-       
+
+    let mtdsl_data = MTDSL?.map(item => item.SL)
+    var sum = mtdsl_data?.reduce(function (a, b) {
+        return a + b;
+    }, 0);
+    let AVG_MTDSL = sum / mtdsl_data?.length
 
     useEffect(() => {
         function getAlerts() {
@@ -40,9 +45,10 @@ const ManagerScreen = () => {
             dispatch(GET_KARACHI_TABLE_DATA())
             dispatch(GET_MTDSL_SERVICES())
             dispatch(GET_AHT_SERVICES())
+            dispatch(GET_ALL_SUPERVISORS_10Mins())
         }
         getAlerts()
-        const interval = setInterval(() => getAlerts(), 5000)
+        const interval = setInterval(() => getAlerts(), 3000)
         return () => {
             clearInterval(interval);
         }
@@ -53,37 +59,37 @@ const ManagerScreen = () => {
             dispatch(GET_SUPERVISOR_DATA());
         }
         getAlerts()
-        const interval = setInterval(() => getAlerts(), 600000 ) // 10 mints for logout within 10 mins
+        const interval = setInterval(() => getAlerts(), 600000) // 10 mints for logout within 10 mins
         return () => {
             clearInterval(interval);
         }
     }, [])
 
-    let handleTenMinutes = () => {
-        if (TotalLogOut) {
-            const tempArr = [...TotalLogOut];
-            let result = [];
+    // let handleTenMinutes = () => {
+    //     if (TotalLogOut) {
+    //         const tempArr = [...TotalLogOut];
+    //         let result = [];
 
-            result = tempArr.filter(item => {
-                const timeZ = item.Timestamp.split("Z")[0];
-                const AgentTime = new Date(timeZ).getTime(); //backend 
-                const currentTime = new Date().getTime();
-                let compareTime = ((currentTime - AgentTime) / 1000).toFixed();
+    //         result = tempArr && tempArr?.filter(item => {
+    //             const timeZ = item.Timestamp?.split("Z")[0];
+    //             const AgentTime = new Date(timeZ).getTime(); //backend 
+    //             const currentTime = new Date().getTime();
+    //             let compareTime = ((currentTime - AgentTime) / 1000).toFixed();
 
-                let tenMinSecond = 600;
-                if (compareTime <= tenMinSecond) {
-                    return item;
-                }
-            })
-            dispatch(updateTotalAgent(result))
-            // console.log("HandleTenMinutesLogout", result);
-        }
-    }
-    useEffect(() => {
-        if (TotalLogOut?.length !== 0) {
-            handleTenMinutes()
-        }
-    }, [TotalLogOut])
+    //             let tenMinSecond = 600;
+    //             if (compareTime <= tenMinSecond) {
+    //                 return item;
+    //             }
+    //         })
+    //         dispatch(updateTotalAgent(result))
+    //     }
+    // }
+
+    // useEffect(() => {
+    //     if (TotalLogOut && TotalLogOut?.length !== 0) {
+    //         handleTenMinutes()
+    //     }
+    // }, [TotalLogOut])
 
 
 
@@ -155,7 +161,11 @@ const ManagerScreen = () => {
                                 color: "#217dbe"
                             }} />
 
-                            <StatuTag data={{ icon: <HiChartPie color={"#ad65d5"} size={40} />, title: "MTD service level", status: MTDSL ? MTDSL + "%" : "00 %", color: "#ad65d5" }} />
+                            <StatuTag data={{
+                                icon: <HiChartPie color={"#ad65d5"} size={40} />, title: "MTD service level",
+                                status: AVG_MTDSL ? AVG_MTDSL.toFixed(1) + "%" :
+                                    "00 %", color: "#ad65d5"
+                            }} />
 
                             <StatuTag data={{ icon: <GiProgression color={"#8c3cb5"} size={33} />, title: "SERVICE LEVEL", status: getMainStatsV1 && getMainStatsV1?.SL !== undefined ? getMainStatsV1?.SL.toFixed(1) + "%" : "00", color: "#8c3cb5" }} />
                             <StatuTag data={{
@@ -173,7 +183,17 @@ const ManagerScreen = () => {
                                 status: getSliderStat ? gTime(((parseInt(getSliderStat[0].AHT) + parseInt(getSliderStat[1].AHT) + parseInt(getSliderStat[2].AHT) + parseInt(getSliderStat[3].AHT) + parseInt(getSliderStat[4].AHT)) / 5).toFixed(0)) : "00",
                                 color: "#ffaa3b"
                             }} />
-                            <StatuTag data={{ icon: <ImSwitch color={"#d68a2a"} size={35} />, title: "LAST 10 MINUTES LOGOUT", status: filterdData?.length, color: "#d68a2a" }} />
+                            <StatuTag data={{
+                                icon: <ImSwitch color={"#d68a2a"} size={35} />, title: "LAST 10 MINUTES LOGOUT",
+                                // status: TotalLogOut && TotalLogOut?.filter(item => {
+                                //     let tenMinSecond = 600;
+                                //     if (item.TIME_IN_STATE <= tenMinSecond) {
+                                //         return item;
+                                //     }
+                                // }).length
+                                status: tenMintLogoutAgent ? tenMintLogoutAgent.length : 0,
+                                color: "#d68a2a"
+                            }} />
                         </div>
 
                         <div className='row-divider' />

@@ -24,8 +24,10 @@ export const DashboardSlice = createSlice({
             state.isProcess = true;
         },
         [GET_ALL_USER.fulfilled]: (state, { payload }) => {
-            state.isProcess = false;
-            state.allUser = payload.data
+            if (payload.status) {
+                state.isProcess = false;
+                state.allUser = payload.data
+            }
         },
         [GET_ALL_USER.rejected]: (state, { payload }) => {
             state.isProcess = false;
