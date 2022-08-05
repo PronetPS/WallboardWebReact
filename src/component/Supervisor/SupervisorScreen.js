@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import USERDATATABLE from './AgentTable';
-import { Layout, Row, Col, Button, Typography, Select } from 'antd';
+import { Layout, Row, Col, Button, Typography, Select, Form, Input } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { logOutUser } from '../Reducers/UserSlice';
 import { GET_ALL_KHI_SUPERVISORS, GET_ALL_LHR_SUPERVISORS, GET_ALL_SUPERVISORS, GET_ALL_SUPERVISORS_10Mins, GET_SUPERVISOR_DATA } from '../utils/WallboardService/Api';
-import { filterAgents, searchTableAgent, handleIsTenMinutes, updateTotalAgent, clearSupervisorData, filterByDepartment, clearSupervisorFilterData } from '../Manager/store/managerSlice';
+import { filterAgents, searchTableAgent, handleIsTenMinutes, updateTotalAgent, clearSupervisorData, filterByDepartment, clearSupervisorFilterData, selectedSuperVisor, clearSelectedSuperVisor, saveSearchInput } from '../Manager/store/managerSlice';
 
 const { Text } = Typography;
 const { Header, Content } = Layout;
@@ -21,54 +21,34 @@ const SupervisorScreen = () => {
     let navigate = useNavigate();
     const dispatch = useDispatch();
     const { superVisorTableData, TotalActiveAgent, TotalNotReady, TotalLogOut,
-        filterdData, isShowTenMinutes, ALL_Supervisors, filterDeparmentID, ALL_KARACHI_AGENT, ALL_LAHORE_AGENT, StateWiseData
+        filterdData, isShowTenMinutes, ALL_Supervisors, filterDeparmentID,
+        ALL_KARACHI_AGENT, ALL_LAHORE_AGENT, StateWiseData, selectedSuperVisorState,
+        saveSearchInputValue
     } = useSelector(state => state?.ManagerdSlice);
     const [stID, setStID] = useState("all")
 
+    useEffect(() => { //filter callbacks when data change after timeout
+        filterSupervisors(filterDeparmentID);
+        filterAgentsHandle(defaultStateValue);
+    }, [superVisorTableData])
 
+    useEffect(() => { // change data against agent state change
+        filterAgentsHandle(defaultStateValue)
+    }, [filterDeparmentID])
 
-    const searchAgentsHandler = (input) => {
-        setDefaultTextValue(input)
-        if (filterDeparmentID === "karachi") {
-            const temData = [...filterdData]; // filter all data behalf all state.
-            const value = input.toLowerCase()
-            const newUser = temData?.filter(user =>
-                user.AGENT_ID.toLowerCase().includes(value)
-            )
-            if (input === "") {
-                dispatch(searchTableAgent(StateWiseData));
-            } else {
-                dispatch(searchTableAgent(newUser));
-            }
-        } else if (filterDeparmentID === "lahore") {
-            const temData = [...filterdData]
-            const value = input.toLowerCase()
-            const newUser = temData?.filter(user =>
-                user.AGENT_ID.toLowerCase().includes(value)
-            )
-            if (input === "") {
-                dispatch(searchTableAgent(StateWiseData));
-            } else {
-                dispatch(searchTableAgent(newUser));
-            }
-        } else if (filterDeparmentID === "all") {
-            let temData1 = [];
-            if (filterdData) {
-                temData1 = [...filterdData]
-            } else {
-                temData1 = [...superVisorTableData];
-            }
-            const value = input.toLowerCase()
-            const newUser = temData1?.filter(user =>
-                user.AGENT_ID.toLowerCase().includes(value)
-            )
-            if (input === "") {
-                dispatch(searchTableAgent(StateWiseData));
-            } else {
-                dispatch(searchTableAgent(newUser));
-            }
+    useEffect(() => {
+        handleSupervisorFilter(selectedSuperVisorState)
+    }, [superVisorTableData])
+
+    useEffect(() => {
+        handleSupervisorFilter(selectedSuperVisorState)
+    }, [defaultStateValue])
+
+    useEffect(() => {
+        if (selectedSuperVisorState.length === 0) {
+            filterAgentsHandle(defaultStateValue)
         }
-    }
+    }, [selectedSuperVisorState])
 
     useEffect(() => {
         setStID("all")
@@ -82,13 +62,58 @@ const SupervisorScreen = () => {
         function getAlerts() {
             dispatch(GET_SUPERVISOR_DATA());
         }
-
         getAlerts()
-        const interval = setInterval(() => getAlerts(), 2000) //10 mintues 600000
+        const interval = setInterval(() => getAlerts(), 300000) //10 mintues 600000 , 300000 5mint
         return () => {
             clearInterval(interval);
         }
     }, [])
+
+
+    const onFinish = (input) => {
+        dispatch(saveSearchInput(input))
+        setDefaultTextValue(input);
+        if (filterDeparmentID === "karachi") {
+            const temData = filterdData; // filter all data behalf all state.
+            const value = input?.toLowerCase()
+            const newUser = temData?.filter(user =>
+                user.AGENT_ID.toLowerCase().includes(value)
+            )
+            if (input === "") {
+                dispatch(searchTableAgent(StateWiseData));
+            } else {
+                dispatch(searchTableAgent(newUser));
+            }
+        } else if (filterDeparmentID === "lahore") {
+            const temData = filterdData
+            const value = input?.toLowerCase()
+            const newUser = temData?.filter(user =>
+                user.AGENT_ID.toLowerCase().includes(value)
+            )
+            if (input === "") {
+                dispatch(searchTableAgent(StateWiseData));
+            } else {
+                dispatch(searchTableAgent(newUser));
+            }
+        } else if (filterDeparmentID === "all") {
+            let temData1 = [];
+
+            if (filterdData) {
+                temData1 = filterdData;
+            } else {
+                temData1 = [...superVisorTableData];
+            }
+            const value = input?.toLowerCase()
+            const newUser = temData1?.filter(user =>
+                user.AGENT_ID.toLowerCase().includes(value)
+            )
+            if (input === "") {
+                dispatch(searchTableAgent(StateWiseData));
+            } else {
+                dispatch(searchTableAgent(newUser));
+            }
+        }
+    }
 
     const logOut = () => {
         dispatch(clearSupervisorData());
@@ -97,29 +122,26 @@ const SupervisorScreen = () => {
     }
 
     const filterSupervisors = (type) => {
+
+        dispatch(clearSelectedSuperVisor())
         dispatch(handleIsTenMinutes(false)) // disable 10 mint toggle
-        // setDefaultSuperData([])
-        setDefaultTextValue("")
         if (type === "all") {
             dispatch(GET_ALL_SUPERVISORS());
-            dispatch(filterByDepartment("all"))
-            setDefaultStateValue("all")
+            dispatch(filterByDepartment("all"));
         } else if (type === "karachi") {
             dispatch(GET_ALL_KHI_SUPERVISORS())
             dispatch(filterByDepartment("karachi"))
-            setDefaultStateValue("all")
         } else if (type === "lahore") {
             dispatch(GET_ALL_LHR_SUPERVISORS())
             dispatch(filterByDepartment("lahore"))
-            setDefaultStateValue("all")
         }
+
     }
 
 
-    const filterAgentsHandle = (category) => {
+    const filterAgentsHandle = (category) => { //filter agent by state
         setDefaultStateValue(category)
         dispatch(handleIsTenMinutes(false)) // disable 10 mint toggle
-        setDefaultTextValue("")
         if (category === "all") {
             dispatch(filterAgents(category))
         } else {
@@ -128,68 +150,33 @@ const SupervisorScreen = () => {
     }
 
     const handleTenMinutes = () => {
-        // if (!isShowTenMinutes) {
-        //     const tempArr = [...TotalLogOut];
-        //     let result = [];
-
-        //     result = tempArr.filter(item => {
-        //         const timeZ = item.Timestamp.split("Z")[0];
-        //         const AgentTime = new Date(timeZ).getTime(); //backend 
-        //         const currentTime = new Date().getTime();
-        //         let compareTime = ((currentTime - AgentTime) / 1000).toFixed();
-
-        //         let tenMinSecond = 600;
-        //         if (compareTime <= tenMinSecond) {
-        //             return item;
-        //         }
-        //     })
-        //     dispatch(updateTotalAgent(result))
-        // } else {
-        //     dispatch(filterAgents("all"))
-        // }
-
         if (!isShowTenMinutes) {
-            // let tempArr = [];
-            // if (filterDeparmentID === "karachi") {
-            //     tempArr = ALL_KARACHI_AGENT.filter(item => item.STATE === "Logout")
-            // } else if (filterDeparmentID === "lahore") {
-            //     tempArr = ALL_LAHORE_AGENT.filter(item => item.STATE === "Logout")
-            // } else if (filterDeparmentID === "all") {
-            //     tempArr = superVisorTableData.filter(item => item.STATE === "Logout")
-            // }
-
-            // let result = [];
-
-            // result = tempArr.filter(item => {
-            //     let tenMinSecond = 600; //
-            //     if (item.TIME_IN_STATE <= tenMinSecond) {
-            //         return item;
-            //     }
-            // })
-            // console.log(result, tempArr);
-            // dispatch(updateTotalAgent(result))
             dispatch(GET_ALL_SUPERVISORS_10Mins())
         } else {
-            dispatch(filterAgents("all"))
-        }
+            // dispatch(filterAgents(defaultStateValue));
+            filterSupervisors(filterDeparmentID);
+            filterAgentsHandle(defaultStateValue);
+            //handleSupervisorFilter(selectedSuperVisorState)
+          
 
+        }
     }
 
-    const handleSupervisorFilter = (value) => {
+    const handleSupervisorFilter = (value) => { // filter by supervisor
 
         if (value.length !== 0) {
-            setDefaultSuperData(value)
+            setDefaultSuperData(value) // set default data in react state.
             let tempArr = [];
-            if (filterDeparmentID === "karachi") {
-                tempArr = [...ALL_KARACHI_AGENT];
-            } else if (filterDeparmentID === "lahore") {
-                tempArr = [...ALL_LAHORE_AGENT];
-            } else if (filterDeparmentID === "all") {
+            if (filterdData) {
+                tempArr = filterdData
+            } else {
                 tempArr = [...superVisorTableData];
             }
             let yFilter = value.map(itemY => { return itemY; });
             let filteredX = tempArr.filter(itemX => yFilter.includes(itemX.SupervisorName));
+            console.log(filteredX);
             dispatch(updateTotalAgent(filteredX));
+            dispatch(selectedSuperVisor(value))
         } else {
             dispatch(clearSupervisorFilterData())
             setDefaultSuperData([])
@@ -234,7 +221,7 @@ const SupervisorScreen = () => {
                                     <Select
                                         mode="multiple"
                                         allowClear
-                                        value={defaultSuperData}
+                                        value={selectedSuperVisorState}
                                         style={{ width: '100%' }}
                                         maxTagCount={2}
                                         maxTagTextLength={4}
@@ -249,7 +236,7 @@ const SupervisorScreen = () => {
                                         }
                                     >  {
                                             ALL_Supervisors && ALL_Supervisors?.map(({ SupervisorName, SupervisorID }) =>
-                                                <Option key={SupervisorName}>{SupervisorName}</Option>
+                                                <Option key={SupervisorID}>{SupervisorName}</Option>
                                             )
                                         }
 
@@ -272,15 +259,30 @@ const SupervisorScreen = () => {
 
                                 <div>
                                     <input placeholder="SEARCH HERE"
-                                        onChange={(e) => {
-                                            searchAgentsHandler(e.target.value)
-                                            setDefaultTextValue(e.target.value)
-                                        }}
-                                        value={defaultTextValue}
+                                        onChange={(e) => onFinish(e.target.value)}
+                                        id='myInput'
+                                        value={saveSearchInputValue}
                                         style={{
                                             width: "200px", height: "30px", borderRadius: "7px", border: "1px solid black",
-                                            padding: " 0px 7px", color: "black", FfontSize: "12px"
+                                            padding: " 0px 7px", color: "black", fontSize: "12px"
                                         }} />
+                                    {/* <Form
+                                        style={{
+                                            width: "200px", height: "30px", borderRadius: "7px", color: "black", fontSize: "12px"
+                                        }}
+                                    >
+                                        <Form.Item name="agent_Name">
+                                            <Input placeholder='SEARCH HERE'
+                                                type="text"
+                                                id='myInput'
+                                                value={saveSearchInputValue}
+                                                onChange={(e) => onFinish(e.target.value)}
+                                                style={{
+                                                    width: "200px", height: "30px", borderRadius: "7px", border: "1px solid black",
+                                                    color: "black", FfontSize: "12px"
+                                                }} />
+                                        </Form.Item>
+                                    </Form> */}
                                 </div>
                             </div>
 

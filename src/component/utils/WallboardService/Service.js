@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { Base_URL } from '../base';
 
 
@@ -22,6 +23,7 @@ export const WallboardServices = {
         } catch (error) {
             return console.log('error', error);
         }
+
     },
     //for all supervioser data
     GetAllSupervisor: async (data) => {
@@ -42,10 +44,14 @@ export const WallboardServices = {
         } catch (error) {
             return console.log('error', error);
         }
+
+       
+
     },
 
     //for all KARACHI supervioser data
     GetAllKHISupervisor: async (data) => {
+
 
         const headers = new Headers();
         headers.append("Content-Type", "application/json");
@@ -202,26 +208,28 @@ export const WallboardServices = {
         }
     },
 
-    getSupervisorData: async (data) => {
-
-        const headers = new Headers();
-        headers.append("Content-Type", "application/json");
+    getSupervisorData: async () => {
+        // const headers = new Headers();
+        // headers.append("Content-Type", "application/json");
 
         const requestOptions = {
             method: 'GET',
-            headers: headers,
-            redirect: 'follow'
+            headers: { 'Content-Type': 'application/json' },
+            // redirect: 'follow',
         };
 
         try {
             // const response = await fetch(`${Base_URL}/getliloData`, requestOptions);
-            const response = await fetch(`${Base_URL}/getAllAgentsSupervisors`, requestOptions);
+            const response = await fetch(`${Base_URL}/getAllAgentsSupervisors`
+                , requestOptions);
 
             const result_1 = await response.text();
             return result_1;
         } catch (error) {
             return console.log('error', error);
         }
+
+
     },
 
     GetMTDService: async (data) => {

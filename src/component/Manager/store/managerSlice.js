@@ -18,7 +18,7 @@ const initialState = {
     getTableKHILHR: null,
     getTableKHI: null,
     superVisorTableData: null,
-    filterdData: null,
+    filterdData: [],
     TotalActiveAgent: null,
     TotalNotReady: null,
     TotalLogOut: null,
@@ -30,14 +30,20 @@ const initialState = {
     ALL_LAHORE_AGENT: null,
     filterDeparmentID: "all",
     tenMintLogoutAgent: null,
-    StateWiseData: null
+    StateWiseData: null,
+    selectedSuperVisorState: [],
+    saveSearchInputValue: ""
 }
 export const ManagerdSlice = createSlice({
     name: 'managerdSlice',
     initialState,
 
     reducers: {
+        saveSearchInput: (state, { payload }) => {
+            state.saveSearchInputValue = payload;
+        },
         filterByDepartment: (state, { payload }) => {
+            state.saveSearchInputValue = "";
             if (payload === 'all') {
                 state.filterdData = null
                 state.filterDeparmentID = "all"
@@ -50,8 +56,9 @@ export const ManagerdSlice = createSlice({
             }
         },
         filterAgents: (state, { payload }) => {
-                state.StateWiseData = null
-                state.filterdData = null
+            state.saveSearchInputValue = "";
+            state.StateWiseData = null
+            state.filterdData = null
             if (payload === "RY") {
                 if (state.filterDeparmentID === "karachi") {
                     state.filterdData = state.ALL_KARACHI_AGENT.filter(item => item.STATE === "IDLE ")
@@ -136,6 +143,13 @@ export const ManagerdSlice = createSlice({
             state.filterdData = payload
         },
 
+        selectedSuperVisor: (state, { payload }) => {
+            state.selectedSuperVisorState = payload
+        },
+
+        clearSelectedSuperVisor: (state, { payload }) => {
+            state.selectedSuperVisorState = []
+        },
 
         clearSupervisorFilterData: (state, { payload }) => {
             if (state.filterDeparmentID === "karachi") {
@@ -148,6 +162,8 @@ export const ManagerdSlice = createSlice({
                 state.superVisorTableData = state.superVisorTableData;
                 state.filterdData = null
             }
+
+            state.selectedSuperVisorState = []
         },
 
         clearSupervisorData: (state, { payload }) => {
@@ -339,5 +355,7 @@ export const ManagerdSlice = createSlice({
     }
 })
 
-export const { filterAgents, searchTableAgent, handleIsTenMinutes, updateTotalAgent, clearSupervisorData, filterByDepartment, clearSupervisorFilterData } = ManagerdSlice.actions;
+export const { filterAgents, searchTableAgent, handleIsTenMinutes, updateTotalAgent,
+    clearSupervisorData, filterByDepartment, clearSupervisorFilterData, selectedSuperVisor, clearSelectedSuperVisor,
+    saveSearchInput } = ManagerdSlice.actions;
 export default ManagerdSlice.reducer;

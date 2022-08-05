@@ -88,7 +88,7 @@ const USERDATATABLE = ({ data }) => {
                         </div>
                         <div className="item">
                             <div style={{ width: "350px", textAlign: 'start' }}>
-                                {item.SupervisorName}
+                                {item.SUPER_ID}
                             </div>
                         </div>
                         <div className="item">

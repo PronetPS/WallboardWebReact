@@ -24,5 +24,5 @@ export const gTime = (sec) => {
 }
 
 export const Base_URL = 'http://172.24.30.130:2022/api';  //for production development
-// export const Base_URL = 'http://192.168.3.123:2022/api'; // for local system development
-// export const Base_URL = 'http://10.144.67.114:2022/api';  // for local development
+// export const Base_URL = 'http://10.144.67.113:2022/api'; // for local system development maam
+// export const Base_URL = 'http://192.168.8.100:2022/api';  // for local development mypc

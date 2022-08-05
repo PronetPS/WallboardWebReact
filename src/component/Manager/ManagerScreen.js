@@ -29,11 +29,11 @@ const ManagerScreen = () => {
     let navigate = useNavigate();
     const dispatch = useDispatch();
 
-    let mtdsl_data = MTDSL?.map(item => item.SL)
-    var sum = mtdsl_data?.reduce(function (a, b) {
-        return a + b;
-    }, 0);
-    let AVG_MTDSL = sum / mtdsl_data?.length
+    // let mtdsl_data = MTDSL?.map(item => item.SL)
+    // var sum = mtdsl_data?.reduce(function (a, b) {
+    //     return a + b;
+    // }, 0);
+    // let AVG_MTDSL = sum / mtdsl_data?.length
 
     useEffect(() => {
         function getAlerts() {
@@ -55,6 +55,7 @@ const ManagerScreen = () => {
     }, [])
 
     useEffect(() => {
+
         function getAlerts() {
             dispatch(GET_SUPERVISOR_DATA());
         }
@@ -163,8 +164,9 @@ const ManagerScreen = () => {
 
                             <StatuTag data={{
                                 icon: <HiChartPie color={"#ad65d5"} size={40} />, title: "MTD service level",
-                                status: AVG_MTDSL ? AVG_MTDSL.toFixed(1) + "%" :
-                                    "00 %", color: "#ad65d5"
+                                status: MTDSL ? MTDSL[0].SL.toFixed(2) : "00 %"
+                                // AVG_MTDSL ? AVG_MTDSL.toFixed(1) + "%" :
+                                //     "00 %", color: "#ad65d5"
                             }} />
 
                             <StatuTag data={{ icon: <GiProgression color={"#8c3cb5"} size={33} />, title: "SERVICE LEVEL", status: getMainStatsV1 && getMainStatsV1?.SL !== undefined ? getMainStatsV1?.SL.toFixed(1) + "%" : "00", color: "#8c3cb5" }} />
